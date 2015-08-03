@@ -1,4 +1,4 @@
-package map.test.eroad.com.eroad_test_map_app;
+package map.test.eroad.com.app;
 
 import android.app.AlertDialog;
 import android.app.Service;
@@ -18,29 +18,22 @@ import android.util.Log;
  */
 public class GPSLocationProvider extends Service implements LocationListener {
 
+    // The minimum distance to change Updates in meters
+    private static final long MIN_DISTANCE_FOR_UPDATES = 10; // 10 meters
+    // The minimum time between updates in milliseconds
+    private static final long MIN_TIME_FOR_UPDATES = 1000 * 60 * 1; // 1 minute
     private final Context mContext;
-
+    // Declaring a Location Manager
+    protected LocationManager mLocationManager;
     // flag for GPS status
     private boolean isGPSEnabled = false;
-
     // flag for network status
     private boolean isNetworkEnabled = false;
-
     // flag for GPS status
     private boolean canGetLocation = false;
-
     private Location mLocation; // mLocation
     private double mLatitude; // mLatitude
     private double mLongitude; // mLongitude
-
-    // The minimum distance to change Updates in meters
-    private static final long MIN_DISTANCE_FOR_UPDATES = 10; // 10 meters
-
-    // The minimum time between updates in milliseconds
-    private static final long MIN_TIME_FOR_UPDATES = 1000 * 60 * 1; // 1 minute
-
-    // Declaring a Location Manager
-    protected LocationManager mLocationManager;
 
     public GPSLocationProvider(Context context) {
         this.mContext = context;

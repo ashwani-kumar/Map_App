@@ -1,11 +1,11 @@
-package map.test.eroad.com.eroad_test_map_app;
+package map.test.eroad.com.app;
 
 import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.AsyncTask;
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -34,6 +34,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.TimeZone;
+
+import map.test.eroad.com.eroad_test_map_app.R;
 
 public class MapsActivity extends FragmentActivity {
 
@@ -348,10 +350,10 @@ public class MapsActivity extends FragmentActivity {
                     HashMap<String,String> point = path.get(j);
 
                     if(j==0){    // Get distance from the list
-                        distance = (String)point.get("distance");
+                        distance = point.get("distance");
                         continue;
                     }else if(j==1){ // Get duration from the list
-                        duration = (String)point.get("duration");
+                        duration = point.get("duration");
                         continue;
                     }
 

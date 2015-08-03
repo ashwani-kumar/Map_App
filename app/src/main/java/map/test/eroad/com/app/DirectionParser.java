@@ -1,20 +1,32 @@
-package map.test.eroad.com.eroad_test_map_app;
+package map.test.eroad.com.app;
 
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 /**
  * Created by Ashwani on 25-07-2015.
  */
-import com.google.android.gms.maps.model.LatLng;
 
 public class DirectionParser {
+
+    public static final String ROUTES = "routes";
+    public static final String LEGS = "legs";
+    public static final String DISTANCE = "distance";
+    public static final String TEXT = "text";
+    public static final String DURATION = "duration";
+    public static final String STEPS = "steps";
+    public static final String POLYLINE = "polyline";
+    public static final String POINTS = "points";
+    public static final String LAT = "lat";
+    public static final String LNG = "lng";
 
     /**
      * Receives a JSONObject and returns a list of lists containing latitude and longitude
@@ -30,26 +42,26 @@ public class DirectionParser {
 
         try {
 
-            routesArray = jObject.getJSONArray("routes");
+            routesArray = jObject.getJSONArray(ROUTES);
 
-            /** Traversing all routes */
+            /** all routes */
             for (int i = 0; i < routesArray.length(); i++) {
-                legsArray = ((JSONObject) routesArray.get(i)).getJSONArray("legs");
+                legsArray = ((JSONObject) routesArray.get(i)).getJSONArray(LEGS);
 
                 List<HashMap<String, String>> path = new ArrayList<HashMap<String, String>>();
 
-                /** Traversing all legs */
+                /** all legs */
                 for (int j = 0; j < legsArray.length(); j++) {
 
                     /** Getting distance from the json data */
-                    distanceObject = ((JSONObject) legsArray.get(j)).getJSONObject("distance");
+                    distanceObject = ((JSONObject) legsArray.get(j)).getJSONObject(DISTANCE);
                     HashMap<String, String> hmDistance = new HashMap<String, String>();
-                    hmDistance.put("distance", distanceObject.getString("text"));
+                    hmDistance.put(DISTANCE, distanceObject.getString(TEXT));
 
                     /** Getting duration from the json data */
-                    durationObject = ((JSONObject) legsArray.get(j)).getJSONObject("duration");
+                    durationObject = ((JSONObject) legsArray.get(j)).getJSONObject(DURATION);
                     HashMap<String, String> hmDuration = new HashMap<String, String>();
-                    hmDuration.put("duration", durationObject.getString("text"));
+                    hmDuration.put("duration", durationObject.getString(TEXT));
 
                     /** Adding distance object to the path */
                     path.add(hmDistance);
@@ -57,19 +69,19 @@ public class DirectionParser {
                     /** Adding duration object to the path */
                     path.add(hmDuration);
 
-                    stepsArray = ((JSONObject) legsArray.get(j)).getJSONArray("steps");
+                    stepsArray = ((JSONObject) legsArray.get(j)).getJSONArray(STEPS);
 
                     /** Traversing all steps */
                     for (int k = 0; k < stepsArray.length(); k++) {
                         String polyline = "";
-                        polyline = (String) ((JSONObject) ((JSONObject) stepsArray.get(k)).get("polyline")).get("points");
+                        polyline = (String) ((JSONObject) ((JSONObject) stepsArray.get(k)).get(POLYLINE)).get(POINTS);
                         List<LatLng> list = decodePolyData(polyline);
 
                         /** Traversing all points */
                         for (int l = 0; l < list.size(); l++) {
                             HashMap<String, String> hm = new HashMap<String, String>();
-                            hm.put("lat", Double.toString(((LatLng) list.get(l)).latitude));
-                            hm.put("lng", Double.toString(((LatLng) list.get(l)).longitude));
+                            hm.put(LAT, Double.toString(list.get(l).latitude));
+                            hm.put(LNG, Double.toString(list.get(l).longitude));
                             path.add(hm);
                         }
                     }
